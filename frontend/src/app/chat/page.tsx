@@ -30,28 +30,29 @@ export default function ChatPage() {
 
   const handleNewChat = () => {
     setConversationId(undefined);
-    // Force re-render by using a key
     window.location.reload();
   };
 
   return (
-    <div>
+    <div className="animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Chat Assistant</h1>
+          <h1 className="text-2xl font-bold">
+            <span className="gradient-text">Chat Assistant</span>
+          </h1>
           <p className="text-sm text-gray-500">{userEmail}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={handleNewChat}
-            className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            className="px-4 py-2 text-blue-400 hover:bg-blue-900/20 rounded-lg transition-all text-sm"
           >
             New Chat
           </button>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="px-4 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-all text-sm"
           >
             Logout
           </button>
@@ -59,14 +60,14 @@ export default function ChatPage() {
       </div>
 
       {/* Navigation */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-2 mb-6">
         <Link
           href="/tasks"
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+          className="px-5 py-2.5 bg-gray-800/50 text-gray-400 rounded-lg hover:bg-gray-800 hover:text-gray-200 transition-all text-sm border border-gray-800"
         >
-          View Tasks
+          Dashboard
         </Link>
-        <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg">
+        <span className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-500/20">
           Chat Assistant
         </span>
       </div>
@@ -78,9 +79,10 @@ export default function ChatPage() {
       />
 
       {/* Help text */}
-      <div className="mt-4 text-center text-sm text-gray-500">
+      <div className="mt-4 text-center text-sm text-gray-600">
         <p>
-          Try saying: &quot;Add a task to buy groceries&quot; or &quot;Show my tasks&quot;
+          Try: &quot;Add a task to buy groceries&quot; or &quot;Show my
+          tasks&quot;
         </p>
       </div>
     </div>

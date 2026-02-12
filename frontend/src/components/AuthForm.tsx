@@ -18,7 +18,6 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
     e.preventDefault();
     setValidationError("");
 
-    // Client-side validation
     if (!email || !email.includes("@")) {
       setValidationError("Please enter a valid email address");
       return;
@@ -40,9 +39,9 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
   const displayError = validationError || error;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {displayError && (
-        <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
+        <div className="p-3 bg-red-900/30 border border-red-800 text-red-400 rounded-lg text-sm">
           {displayError}
         </div>
       )}
@@ -50,7 +49,7 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-300 mb-1.5"
         >
           Email
         </label>
@@ -59,7 +58,7 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
           placeholder="you@example.com"
           required
           disabled={loading}
@@ -69,7 +68,7 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-300 mb-1.5"
         >
           Password
         </label>
@@ -78,7 +77,7 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
           placeholder="Enter your password"
           required
           minLength={6}
@@ -89,7 +88,7 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-500 hover:to-purple-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-500/20"
       >
         {loading
           ? "Please wait..."

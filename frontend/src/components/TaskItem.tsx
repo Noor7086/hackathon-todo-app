@@ -85,22 +85,22 @@ export default function TaskItem({
 
   return (
     <div
-      className={`p-4 bg-white rounded-lg border ${
+      className={`p-4 rounded-xl border transition-all hover:border-gray-600 ${
         task.completed
-          ? "border-green-200 bg-green-50"
+          ? "bg-emerald-900/10 border-emerald-800/50"
           : isOverdue
-            ? "border-red-300 bg-red-50"
-            : "border-gray-200"
+            ? "bg-red-900/10 border-red-800/50"
+            : "bg-gray-800/50 border-gray-700/50"
       }`}
     >
       <div className="flex items-start gap-3">
         <button
           onClick={handleToggle}
           disabled={loading}
-          className={`mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+          className={`mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0 ${
             task.completed
-              ? "bg-green-500 border-green-500 text-white"
-              : "border-gray-300 hover:border-blue-500"
+              ? "bg-emerald-500 border-emerald-500 text-white"
+              : "border-gray-600 hover:border-blue-500"
           }`}
           aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
         >
@@ -125,7 +125,7 @@ export default function TaskItem({
           <div className="flex items-center gap-2 flex-wrap">
             <h3
               className={`font-medium ${
-                task.completed ? "text-gray-500 line-through" : "text-gray-900"
+                task.completed ? "text-gray-500 line-through" : "text-gray-100"
               }`}
             >
               {task.title}
@@ -168,9 +168,9 @@ export default function TaskItem({
             <p
               className={`text-xs mt-1 ${
                 isOverdue
-                  ? "text-red-600 font-medium"
+                  ? "text-red-400 font-medium"
                   : dueInfo.isToday
-                    ? "text-orange-600"
+                    ? "text-amber-400"
                     : "text-gray-500"
               }`}
             >
@@ -181,24 +181,24 @@ export default function TaskItem({
           {task.description && (
             <button
               onClick={() => setShowDescription(!showDescription)}
-              className="text-sm text-blue-600 hover:underline mt-1"
+              className="text-sm text-blue-400 hover:text-blue-300 mt-1 transition-colors"
             >
               {showDescription ? "Hide details" : "Show details"}
             </button>
           )}
 
           {showDescription && task.description && (
-            <p className="mt-2 text-sm text-gray-600 whitespace-pre-wrap">
+            <p className="mt-2 text-sm text-gray-400 whitespace-pre-wrap">
               {task.description}
             </p>
           )}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1 flex-shrink-0">
           <button
             onClick={() => onEdit(task)}
             disabled={loading}
-            className="px-3 py-1 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="px-3 py-1 text-sm text-gray-500 hover:text-blue-400 hover:bg-blue-900/20 rounded-lg transition-all"
           >
             Edit
           </button>
@@ -207,7 +207,7 @@ export default function TaskItem({
             <button
               onClick={() => setShowDeleteConfirm(true)}
               disabled={loading}
-              className="px-3 py-1 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              className="px-3 py-1 text-sm text-gray-500 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-all"
             >
               Delete
             </button>
@@ -216,14 +216,14 @@ export default function TaskItem({
               <button
                 onClick={handleDelete}
                 disabled={loading}
-                className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-3 py-1 text-sm bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors"
               >
                 Confirm
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={loading}
-                className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+                className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 rounded-lg transition-colors"
               >
                 Cancel
               </button>

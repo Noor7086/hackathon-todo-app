@@ -9,10 +9,17 @@ interface FilterPanelProps {
   tags: Tag[];
 }
 
-export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps) {
+export function FilterPanel({
+  filters,
+  onFiltersChange,
+  tags,
+}: FilterPanelProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const updateFilter = <K extends keyof TaskFilters>(key: K, value: TaskFilters[K]) => {
+  const updateFilter = <K extends keyof TaskFilters>(
+    key: K,
+    value: TaskFilters[K],
+  ) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 
@@ -21,24 +28,29 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
   };
 
   const hasActiveFilters = Object.values(filters).some(
-    (v) => v !== undefined && v !== "" && v !== false
+    (v) => v !== undefined && v !== "" && v !== false,
   );
 
+  const selectStyles =
+    "rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-all";
+
   return (
-    <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+    <div className="mb-4 rounded-xl border border-gray-800 bg-gray-900/50 p-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
           {/* Search */}
-          <div className="relative">
+          <div className="relative w-full sm:w-64">
             <input
               type="text"
               placeholder="Search tasks..."
               value={filters.search || ""}
-              onChange={(e) => updateFilter("search", e.target.value || undefined)}
-              className="w-64 rounded-md border border-gray-300 px-3 py-2 pl-9 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              onChange={(e) =>
+                updateFilter("search", e.target.value || undefined)
+              }
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 pl-9 text-sm text-gray-200 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-all"
             />
             <svg
-              className="absolute left-3 top-2.5 h-4 w-4 text-gray-400"
+              className="absolute left-3 top-2.5 h-4 w-4 text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -58,10 +70,12 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
             onChange={(e) =>
               updateFilter(
                 "status",
-                e.target.value === "all" ? undefined : (e.target.value as TaskFilters["status"])
+                e.target.value === "all"
+                  ? undefined
+                  : (e.target.value as TaskFilters["status"]),
               )
             }
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className={selectStyles}
           >
             <option value="all">All Status</option>
             <option value="incomplete">Pending</option>
@@ -71,9 +85,12 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
           <select
             value={filters.priority || ""}
             onChange={(e) =>
-              updateFilter("priority", (e.target.value || undefined) as Priority | undefined)
+              updateFilter(
+                "priority",
+                (e.target.value || undefined) as Priority | undefined,
+              )
             }
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className={selectStyles}
           >
             <option value="">All Priorities</option>
             <option value="urgent">Urgent</option>
@@ -86,14 +103,14 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-sm text-gray-600 hover:text-gray-900"
+            className="text-sm text-gray-400 hover:text-gray-200 transition-colors"
           >
             {isExpanded ? "Less filters" : "More filters"}
           </button>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-600 hover:bg-gray-200"
+              className="rounded-lg bg-gray-800 px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 hover:text-gray-200 transition-all"
             >
               Clear
             </button>
@@ -102,12 +119,12 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
       </div>
 
       {isExpanded && (
-        <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-gray-100 pt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-gray-800 pt-4 animate-slide-down">
           {/* Tag filter */}
           <select
             value={filters.tag || ""}
             onChange={(e) => updateFilter("tag", e.target.value || undefined)}
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className={selectStyles}
           >
             <option value="">All Tags</option>
             {tags.map((tag) => (
@@ -118,12 +135,14 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
           </select>
 
           {/* Overdue toggle */}
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-sm text-gray-400">
             <input
               type="checkbox"
               checked={filters.overdue || false}
-              onChange={(e) => updateFilter("overdue", e.target.checked || undefined)}
-              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              onChange={(e) =>
+                updateFilter("overdue", e.target.checked || undefined)
+              }
+              className="h-4 w-4 rounded border-gray-600 bg-gray-800 text-blue-500 focus:ring-blue-500/50"
             />
             Show only overdue
           </label>
@@ -136,7 +155,7 @@ export function FilterPanel({ filters, onFiltersChange, tags }: FilterPanelProps
               updateFilter("sort", sort);
               updateFilter("order", order as "asc" | "desc");
             }}
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className={selectStyles}
           >
             <option value="created_at-desc">Newest first</option>
             <option value="created_at-asc">Oldest first</option>

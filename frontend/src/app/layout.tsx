@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Todo App - Phase II",
-  description: "Full-stack Todo application with Next.js and FastAPI",
+  title: "TaskFlow - Smart Todo Dashboard",
+  description: "AI-powered task management with smart analytics",
 };
 
 export default function RootLayout({
@@ -13,8 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50">
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
+      <body className="min-h-screen bg-gray-950 text-gray-100">
+        <main className="container mx-auto px-4 py-6 max-w-5xl">
           {children}
         </main>
       </body>

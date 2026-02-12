@@ -19,7 +19,6 @@ export default function RegisterPage() {
   const handleRegister = async (email: string, _password: string) => {
     try {
       setError("");
-      // For demo, registration is the same as login
       await demoLogin(email);
       router.push("/tasks");
     } catch (err) {
@@ -28,20 +27,30 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-        <p className="text-gray-600">Start managing your tasks today</p>
-      </div>
-
-      <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-        <AuthForm mode="register" onSubmit={handleRegister} error={error} />
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
+    <div className="max-w-md mx-auto min-h-[80vh] flex items-center justify-center">
+      <div className="w-full animate-fade-in-up">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block mb-4">
+            <span className="text-2xl font-bold gradient-text">TaskFlow</span>
           </Link>
+          <h1 className="text-3xl font-bold text-gray-100 mb-2">
+            Create Account
+          </h1>
+          <p className="text-gray-400">Start managing your tasks today</p>
+        </div>
+
+        <div className="glass-card p-8 glow-purple">
+          <AuthForm mode="register" onSubmit={handleRegister} error={error} />
+
+          <div className="mt-6 text-center text-sm text-gray-400">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Login
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -63,15 +63,15 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+      <div className="glass-card max-w-md w-full p-6 glow-blue animate-fade-in-up">
+        <h2 className="text-xl font-bold text-gray-100 mb-4">
           {isEdit ? "Edit Task" : "Add Task"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
+            <div className="p-3 bg-red-900/30 border border-red-800 text-red-400 rounded-lg text-sm">
               {error}
             </div>
           )}
@@ -79,16 +79,16 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
-              Title <span className="text-red-500">*</span>
+              Title <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
               placeholder="What needs to be done?"
               required
               maxLength={500}
@@ -101,7 +101,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Description
             </label>
@@ -109,7 +109,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none resize-none transition-all"
               placeholder="Add more details (optional)"
               rows={3}
               disabled={loading}
@@ -120,7 +120,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
             <div>
               <label
                 htmlFor="priority"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Priority
               </label>
@@ -128,7 +128,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
                 id="priority"
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as Priority)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
                 disabled={loading}
               >
                 <option value="low">Low</option>
@@ -141,7 +141,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
             <div>
               <label
                 htmlFor="dueDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Due Date
               </label>
@@ -150,7 +150,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
                 id="dueDate"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
                 disabled={loading}
               />
             </div>
@@ -159,7 +159,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
           <div>
             <label
               htmlFor="recurrence"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Recurrence
             </label>
@@ -167,7 +167,7 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
               id="recurrence"
               value={recurrence}
               onChange={(e) => setRecurrence(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
               disabled={loading}
             >
               <option value="">No recurrence</option>
@@ -180,19 +180,19 @@ export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
             </select>
           </div>
 
-          <div className="flex gap-3 justify-end">
+          <div className="flex gap-3 justify-end pt-2">
             <button
               type="button"
               onClick={onCancel}
               disabled={loading}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="px-5 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all disabled:opacity-50 shadow-lg shadow-blue-500/20"
             >
               {loading ? "Saving..." : isEdit ? "Save Changes" : "Add Task"}
             </button>

@@ -7,16 +7,20 @@ interface PriorityBadgeProps {
   size?: "sm" | "md";
 }
 
-const priorityConfig: Record<Priority, { label: string; color: string; bg: string }> = {
-  urgent: { label: "Urgent", color: "text-red-700", bg: "bg-red-100" },
-  high: { label: "High", color: "text-orange-700", bg: "bg-orange-100" },
-  medium: { label: "Medium", color: "text-blue-700", bg: "bg-blue-100" },
-  low: { label: "Low", color: "text-gray-600", bg: "bg-gray-100" },
+const priorityConfig: Record<
+  Priority,
+  { label: string; color: string; bg: string }
+> = {
+  urgent: { label: "Urgent", color: "text-red-400", bg: "bg-red-900/30" },
+  high: { label: "High", color: "text-orange-400", bg: "bg-orange-900/30" },
+  medium: { label: "Medium", color: "text-blue-400", bg: "bg-blue-900/30" },
+  low: { label: "Low", color: "text-gray-400", bg: "bg-gray-800" },
 };
 
 export function PriorityBadge({ priority, size = "sm" }: PriorityBadgeProps) {
   const config = priorityConfig[priority];
-  const sizeClasses = size === "sm" ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm";
+  const sizeClasses =
+    size === "sm" ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm";
 
   return (
     <span

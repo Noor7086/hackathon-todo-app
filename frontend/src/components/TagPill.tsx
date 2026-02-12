@@ -9,12 +9,13 @@ interface TagPillProps {
 }
 
 export function TagPill({ tag, onRemove, size = "sm" }: TagPillProps) {
-  const sizeClasses = size === "sm" ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm";
+  const sizeClasses =
+    size === "sm" ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm";
 
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full font-medium ${sizeClasses}`}
-      style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
+      style={{ backgroundColor: `${tag.color}25`, color: tag.color }}
     >
       {tag.name}
       {onRemove && (
