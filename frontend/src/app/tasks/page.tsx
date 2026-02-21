@@ -22,7 +22,7 @@ export default function TasksPage() {
   const [userId, setUserId] = useState<string>("");
 
   const loadTasks = useCallback(
-    async (currentFilters?: TaskFilters) => {
+    async (currentFilters?: TaskFilters, silent = false) => {
       const session = getSession();
       if (!session) {
         router.push("/login");
@@ -31,7 +31,7 @@ export default function TasksPage() {
 
       setUserId(session.user.id);
       setUserEmail(session.user.email);
-      setLoading(true);
+      if (!silent) setLoading(true);
       setError(null);
 
       try {
@@ -44,7 +44,7 @@ export default function TasksPage() {
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load tasks");
       } finally {
-        setLoading(false);
+        if (!silent) setLoading(false);
       }
     },
     [router],
@@ -67,7 +67,7 @@ export default function TasksPage() {
   }, [router, loadTasks]);
 
   useEffect(() => {
-    const handleChatTaskChanged = () => loadTasks(filters);
+    const handleChatTaskChanged = () => loadTasks(filters, true);
     window.addEventListener("taskflow:task-changed", handleChatTaskChanged);
     return () =>
       window.removeEventListener("taskflow:task-changed", handleChatTaskChanged);
