@@ -197,6 +197,28 @@ body {
     animation: slideDown 0.3s ease forwards;
 }
 
+.chat-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 50;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(37, 99, 235, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+}
+
+.chat-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 32px rgba(37, 99, 235, 0.65);
+}
+
 .animate-float {
     animation: float 3s ease-in-out infinite;
 }

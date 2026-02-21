@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import type { Tag, Task, TaskCreate, TaskFilters, TaskUpdate } from "@/types";
 import { api } from "@/lib/api";
 import { getSession, logout, isAuthenticated } from "@/lib/auth";
@@ -144,12 +143,6 @@ export default function TasksPage() {
         <span className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-500/20">
           Dashboard
         </span>
-        <Link
-          href="/chat"
-          className="px-5 py-2.5 bg-gray-800/50 text-gray-400 rounded-lg hover:bg-gray-800 hover:text-gray-200 transition-all text-sm border border-gray-800"
-        >
-          Chat Assistant
-        </Link>
       </div>
 
       {/* Stats Cards */}
