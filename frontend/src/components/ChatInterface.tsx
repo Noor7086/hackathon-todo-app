@@ -101,6 +101,9 @@ export default function ChatInterface({
             content: response.response,
           }),
       );
+
+      // Notify task list to refresh if the agent may have mutated tasks
+      window.dispatchEvent(new CustomEvent("taskflow:task-changed"));
     } catch (err) {
       setMessages((prev) => prev.filter((m) => m.id !== "pending"));
       setError(err instanceof Error ? err.message : "Failed to send message");

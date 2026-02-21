@@ -66,6 +66,13 @@ export default function TasksPage() {
     loadTasks();
   }, [router, loadTasks]);
 
+  useEffect(() => {
+    const handleChatTaskChanged = () => loadTasks(filters);
+    window.addEventListener("taskflow:task-changed", handleChatTaskChanged);
+    return () =>
+      window.removeEventListener("taskflow:task-changed", handleChatTaskChanged);
+  }, [loadTasks, filters]);
+
   const handleCreateTask = async (data: TaskCreate | TaskUpdate) => {
     const newTask = await api.createTask(userId, data as TaskCreate);
     setTasks((prev) => [...prev, newTask]);
