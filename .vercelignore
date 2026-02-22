@@ -1,0 +1,13 @@
+docker-compose.yml
+docker/
+k8s/
+helm/
+dapr/
+scripts/
+specs/
+history/
+tests/
+backend/tests/
+*.md
+NUL
+.specify/
