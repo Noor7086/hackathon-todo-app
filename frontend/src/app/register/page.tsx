@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AuthForm from "@/components/AuthForm";
-import { demoLogin, isAuthenticated } from "@/lib/auth";
+import { register, isAuthenticated } from "@/lib/auth";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -16,10 +16,10 @@ export default function RegisterPage() {
     }
   }, [router]);
 
-  const handleRegister = async (email: string, _password: string) => {
+  const handleRegister = async (email: string, password: string, name?: string) => {
     try {
       setError("");
-      await demoLogin(email);
+      await register(email, password, name || "");
       router.push("/tasks");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");

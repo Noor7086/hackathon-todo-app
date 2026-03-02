@@ -1,5 +1,6 @@
 """Database models."""
 
+from src.models.user import User
 from src.models.conversation import Conversation, ConversationResponse
 from src.models.message import Message, MessageCreate, MessageResponse, MessageRole
 from src.models.tag import (
@@ -13,6 +14,7 @@ from src.models.tag import (
 from src.models.task import Priority, Task, TaskCreate, TaskResponse, TaskUpdate
 
 __all__ = [
+    "User",
     "Task",
     "TaskCreate",
     "TaskUpdate",

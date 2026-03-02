@@ -57,25 +57,28 @@ export default function TaskItem({
   onEdit,
   onDelete,
 }: TaskItemProps) {
-  const [loading, setLoading] = useState(false);
+  const [toggling, setToggling] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  const busy = toggling || deleting;
+
   const handleToggle = async () => {
-    setLoading(true);
+    setToggling(true);
     try {
       await onToggleComplete(task.id);
     } finally {
-      setLoading(false);
+      setToggling(false);
     }
   };
 
   const handleDelete = async () => {
-    setLoading(true);
+    setDeleting(true);
     try {
       await onDelete(task.id);
     } finally {
-      setLoading(false);
+      setDeleting(false);
       setShowDeleteConfirm(false);
     }
   };
@@ -96,15 +99,37 @@ export default function TaskItem({
       <div className="flex items-start gap-3">
         <button
           onClick={handleToggle}
-          disabled={loading}
+          disabled={busy}
           className={`mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0 ${
-            task.completed
-              ? "bg-emerald-500 border-emerald-500 text-white"
-              : "border-gray-600 hover:border-blue-500"
+            toggling
+              ? "border-blue-500 bg-transparent"
+              : task.completed
+                ? "bg-emerald-500 border-emerald-500 text-white"
+                : "border-gray-600 hover:border-blue-500"
           }`}
           aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
         >
-          {task.completed && (
+          {toggling ? (
+            <svg
+              className="w-3 h-3 animate-spin text-blue-400"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
+              />
+            </svg>
+          ) : task.completed ? (
             <svg
               className="w-3 h-3"
               fill="none"
@@ -118,7 +143,7 @@ export default function TaskItem({
                 d="M5 13l4 4L19 7"
               />
             </svg>
-          )}
+          ) : null}
         </button>
 
         <div className="flex-1 min-w-0">
@@ -197,8 +222,8 @@ export default function TaskItem({
         <div className="flex gap-1 flex-shrink-0">
           <button
             onClick={() => onEdit(task)}
-            disabled={loading}
-            className="px-3 py-1 text-sm text-gray-500 hover:text-blue-400 hover:bg-blue-900/20 rounded-lg transition-all"
+            disabled={busy}
+            className="px-3 py-1 text-sm text-gray-500 hover:text-blue-400 hover:bg-blue-900/20 rounded-lg transition-all disabled:opacity-40"
           >
             Edit
           </button>
@@ -206,8 +231,8 @@ export default function TaskItem({
           {!showDeleteConfirm ? (
             <button
               onClick={() => setShowDeleteConfirm(true)}
-              disabled={loading}
-              className="px-3 py-1 text-sm text-gray-500 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-all"
+              disabled={busy}
+              className="px-3 py-1 text-sm text-gray-500 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-all disabled:opacity-40"
             >
               Delete
             </button>
@@ -215,15 +240,21 @@ export default function TaskItem({
             <div className="flex gap-1">
               <button
                 onClick={handleDelete}
-                disabled={loading}
-                className="px-3 py-1 text-sm bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors"
+                disabled={busy}
+                className="px-3 py-1 text-sm bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors disabled:opacity-60 flex items-center gap-1"
               >
-                Confirm
+                {deleting ? (
+                  <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                  </svg>
+                ) : null}
+                {deleting ? "Deleting..." : "Confirm"}
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                disabled={loading}
-                className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 rounded-lg transition-colors"
+                disabled={busy}
+                className="px-3 py-1 text-sm text-gray-400 hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-40"
               >
                 Cancel
               </button>

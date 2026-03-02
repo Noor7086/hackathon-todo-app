@@ -5,7 +5,6 @@ Provides voice-to-text and voice command processing endpoints.
 Supports English and Urdu languages.
 """
 
-import os
 from typing import Literal
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -13,12 +12,18 @@ from openai import OpenAI
 from pydantic import BaseModel
 
 from ..agents.skills import SkillOrchestrator
+from ..config import get_settings
 
 router = APIRouter(prefix="/voice", tags=["Voice"])
 
-# Initialize
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 orchestrator = SkillOrchestrator()
+
+
+def get_openai_client() -> OpenAI:
+    settings = get_settings()
+    if not settings.openai_api_key:
+        raise HTTPException(status_code=503, detail="OpenAI API key not configured")
+    return OpenAI(api_key=settings.openai_api_key)
 
 
 class TranscriptionResponse(BaseModel):
@@ -89,7 +94,7 @@ async def transcribe_audio(
         if language != "auto":
             transcription_params["language"] = language
 
-        response = client.audio.transcriptions.create(**transcription_params)
+        response = get_openai_client().audio.transcriptions.create(**transcription_params)
 
         # Detect language from response if auto
         detected_language = language
@@ -218,7 +223,7 @@ async def text_to_speech(
         )
 
     try:
-        response = client.audio.speech.create(
+        response = get_openai_client().audio.speech.create(
             model="tts-1",
             voice=voice,
             input=text,

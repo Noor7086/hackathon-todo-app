@@ -4,19 +4,26 @@ import { useState, FormEvent } from "react";
 
 interface AuthFormProps {
   mode: "login" | "register";
-  onSubmit: (email: string, password: string) => Promise<void>;
+  onSubmit: (email: string, password: string, name?: string) => Promise<void>;
   error?: string;
 }
 
 export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setValidationError("");
+
+    if (mode === "register" && !name.trim()) {
+      setValidationError("Please enter your name");
+      return;
+    }
 
     if (!email || !email.includes("@")) {
       setValidationError("Please enter a valid email address");
@@ -28,9 +35,14 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
       return;
     }
 
+    if (mode === "register" && password !== confirmPassword) {
+      setValidationError("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
     try {
-      await onSubmit(email, password);
+      await onSubmit(email, password, name);
     } finally {
       setLoading(false);
     }
@@ -43,6 +55,27 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
       {displayError && (
         <div className="p-3 bg-red-900/30 border border-red-800 text-red-400 rounded-lg text-sm">
           {displayError}
+        </div>
+      )}
+
+      {mode === "register" && (
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-300 mb-1.5"
+          >
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
+            placeholder="John Doe"
+            required
+            disabled={loading}
+          />
         </div>
       )}
 
@@ -78,12 +111,34 @@ export default function AuthForm({ mode, onSubmit, error }: AuthFormProps) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
-          placeholder="Enter your password"
+          placeholder={mode === "register" ? "Create a password" : "Enter your password"}
           required
           minLength={6}
           disabled={loading}
         />
       </div>
+
+      {mode === "register" && (
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-gray-300 mb-1.5"
+          >
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all"
+            placeholder="Repeat your password"
+            required
+            minLength={6}
+            disabled={loading}
+          />
+        </div>
+      )}
 
       <button
         type="submit"

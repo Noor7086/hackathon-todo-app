@@ -48,19 +48,22 @@ export function getCurrentUser(): User | null {
   return session?.user || null;
 }
 
-/**
- * Demo authentication for hackathon.
- * Calls backend to get a properly signed JWT token.
- */
-export async function demoLogin(email: string): Promise<AuthSession> {
-  const response = await fetch("/auth/demo-login", {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+export async function register(
+  email: string,
+  password: string,
+  name: string = ""
+): Promise<AuthSession> {
+  const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, password, name }),
   });
 
   if (!response.ok) {
-    throw new Error("Login failed");
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || "Registration failed");
   }
 
   const data = await response.json();
@@ -68,7 +71,30 @@ export async function demoLogin(email: string): Promise<AuthSession> {
     user: { id: data.user_id, email: data.email },
     token: data.token,
   };
+  setSession(session);
+  return session;
+}
 
+export async function login(
+  email: string,
+  password: string
+): Promise<AuthSession> {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || "Invalid email or password");
+  }
+
+  const data = await response.json();
+  const session: AuthSession = {
+    user: { id: data.user_id, email: data.email },
+    token: data.token,
+  };
   setSession(session);
   return session;
 }

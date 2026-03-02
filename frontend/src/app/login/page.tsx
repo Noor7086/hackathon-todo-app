@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import AuthForm from "@/components/AuthForm";
-import { demoLogin, isAuthenticated } from "@/lib/auth";
+import { login, isAuthenticated } from "@/lib/auth";
 
 function LoginContent() {
   const router = useRouter();
@@ -21,10 +21,10 @@ function LoginContent() {
     }
   }, [router, searchParams]);
 
-  const handleLogin = async (email: string, _password: string) => {
+  const handleLogin = async (email: string, password: string) => {
     try {
       setError("");
-      await demoLogin(email);
+      await login(email, password);
       router.push("/tasks");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");

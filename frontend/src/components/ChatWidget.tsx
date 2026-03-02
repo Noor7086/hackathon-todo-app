@@ -1,12 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import ChatInterface from "./ChatInterface";
 import { isAuthenticated } from "@/lib/auth";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [conversationId, setConversationId] = useState<number | undefined>();
+  const pathname = usePathname();
+
+  // Don't show the floating widget on the dedicated chat page
+  if (pathname === "/chat") return null;
 
   const handleToggle = () => {
     if (!open && !isAuthenticated()) return; // silently ignore if not logged in

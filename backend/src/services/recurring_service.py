@@ -86,6 +86,10 @@ def calculate_next_occurrence(task: Task) -> datetime | None:
     base_date = task.due_date
     now = datetime.now(UTC)
 
+    # Make base_date timezone-aware if it isn't already
+    if base_date.tzinfo is None:
+        base_date = base_date.replace(tzinfo=UTC)
+
     # Start from today if due date is in the past
     if base_date < now:
         base_date = now
@@ -160,5 +164,7 @@ def _calculate_next_reminder(task: Task, next_due: datetime) -> datetime | None:
         return None
 
     # Calculate the offset between reminder and due date
-    offset = task.due_date - task.reminder_at
+    due = task.due_date if task.due_date.tzinfo else task.due_date.replace(tzinfo=UTC)
+    reminder = task.reminder_at if task.reminder_at.tzinfo else task.reminder_at.replace(tzinfo=UTC)
+    offset = due - reminder
     return next_due - offset

@@ -2,6 +2,10 @@
 
 from contextlib import asynccontextmanager
 
+from dotenv import load_dotenv
+
+load_dotenv()  # Load .env into os.environ before any SDK reads it
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
