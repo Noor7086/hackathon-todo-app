@@ -1,5 +1,6 @@
 """Database connection and session management."""
 
+import os
 from collections.abc import Generator
 from typing import Annotated
 
@@ -15,15 +16,22 @@ _engine_kwargs = {
     "echo": False,
 }
 
-# Add connection pooling for PostgreSQL (not supported by SQLite)
-if not settings.database_url.startswith("sqlite"):
-    _engine_kwargs.update(
-        {
-            "pool_pre_ping": True,
-            "pool_size": 5,
-            "max_overflow": 10,
-        }
-    )
+is_sqlite = settings.database_url.startswith("sqlite")
+is_serverless = os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")
+
+if not is_sqlite:
+    if is_serverless:
+        # Serverless: disable pooling to avoid connection exhaustion
+        from sqlalchemy.pool import NullPool
+        _engine_kwargs["poolclass"] = NullPool
+    else:
+        _engine_kwargs.update(
+            {
+                "pool_pre_ping": True,
+                "pool_size": 5,
+                "max_overflow": 10,
+            }
+        )
 
 engine = create_engine(settings.database_url, **_engine_kwargs)
 
